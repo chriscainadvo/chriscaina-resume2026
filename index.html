@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chris Bernard Caiña — AI-Augmented Executive Assistant & Operations Specialist." />
+  <title>CAIÑA.OPS — AI-Augmented Executive Operations</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&family=Antonio:wght@200;300;400&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Custom cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Minimal top nav (full-screen animation, links only) -->
+  <nav class="topnav" id="nav">
+    <a href="/portfolio">Portfolio</a>
+    <a href="/experience">Experience</a>
+    <a href="/services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Sticky cinematic stage -->
+  <section class="stage-scroll" id="top">
+    <div class="stage-sticky">
+      <canvas id="webgl"></canvas>
+      <div class="head-fade" id="headFade"></div>
+
+      <!-- Centered poetic storytelling caption -->
+      <div class="story-caption" id="storyCaption">
+        <p class="story-line">Everyone works with the same AI tools.</p>
+      </div>
+
+      <!-- Build Beat 01: Video Clipping AI Agent -->
+      <div class="build-reveal" id="buildReveal1">
+        <p class="br-eyebrow">// AI BUILD &mdash; 01</p>
+        <h2 class="br-title">VIDEO CLIPPING<br/><span class="br-accent">AI AGENT</span></h2>
+        <p class="br-desc">Watches, transcribes, and cuts the best moments from long-form video. Fully automated — no editor needed.</p>
+        <div class="br-status"><span class="br-dot"></span>&nbsp;LIVE &amp; RUNNING</div>
+      </div>
+
+      <!-- Build Beat 02: Jarvis AI Chief of Staff -->
+      <div class="build-reveal" id="buildReveal2">
+        <p class="br-eyebrow">// AI BUILD &mdash; 02</p>
+        <h2 class="br-title">JARVIS<br/><span class="br-accent">AI CHIEF OF STAFF</span></h2>
+        <p class="br-desc">Monitors Mail, Calendar, iMessage, and Chrome around the clock. Alerts, drafts, and executes — so leadership never misses a thing.</p>
+        <div class="br-status"><span class="br-dot"></span>&nbsp;LIVE &amp; RUNNING</div>
+      </div>
+
+      <!-- Name reveal payoff (climax of the cinematic) -->
+      <div class="name-reveal" id="nameReveal">
+        <p class="nr-eyebrow">// THE OPERATOR</p>
+        <h1 class="nr-name">CHRIS BERNARD<br /><span class="nr-outline">CAIÑA</span></h1>
+        <p class="nr-sub">AI-Augmented Executive Assistant &amp; Operations Specialist</p>
+        <div class="nr-cta">
+          <a href="#services" class="btn btn-fill">See my services →</a>
+          <a href="#contact" class="btn btn-outline">Work with me</a>
+        </div>
+      </div>
+
+      <!-- Scene progress bar -->
+      <div class="scene-progress">
+        <div class="scene-progress-track"><div class="scene-progress-fill" id="progressFill"></div></div>
+        <span class="scene-progress-num" id="progressNum">01 / 07</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Normal HTML content scrolls in after the stage -->
+  <main id="content"></main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

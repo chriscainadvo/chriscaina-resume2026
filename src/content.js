@@ -6,7 +6,8 @@ const SERVICES = [
   ['AI Workflow Automation', 'Custom agents and pipelines that remove repetitive work — research, follow-ups, reporting — running quietly in the background.'],
   ['Lead Generation', 'Targeted prospect databases built with LinkedIn Sales Navigator, Apollo, and AI enrichment. 600+ qualified contacts and counting.'],
   ['Cold Calling', 'Scripted outreach calls handled end-to-end — targeting, dialing, follow-up, and pipeline handoff. No hand-holding required.'],
-  ['Web & Tool Deployment', 'Sites, dashboards, and internal tools shipped end-to-end with Claude Code and Vercel — no dev team required.'],
+  ['Website Creation', 'Custom-designed business sites built in days — not months. Landing pages to full multi-page builds, AI-accelerated and deployed.', '/websites'],
+  ['App & Tool Deployment', 'Internal dashboards, automations, and custom tools shipped end-to-end with Claude Code and Vercel — no dev team required.'],
   ['Project Coordination', 'Multi-stakeholder projects kept on track with clear systems, status visibility, and proactive follow-through.'],
   ['Travel & Logistics', 'Complex international itineraries planned and optimized — $10K+ in travel costs saved through smart booking.'],
 ]
@@ -41,11 +42,12 @@ export function buildContent() {
       <p class="section-eyebrow">// WHAT I DO</p>
       <h2 class="section-title">Services</h2>
       <div class="cards-3">
-        ${SERVICES.map(([t, d], i) => `
+        ${SERVICES.map(([t, d, url], i) => `
           <div class="svc-card">
             <span class="svc-num">0${i + 1}</span>
             <h3>${t}</h3>
             <p>${d}</p>
+            ${url ? `<a href="${url}" class="svc-link">See packages →</a>` : ''}
           </div>`).join('')}
       </div>
     </section>

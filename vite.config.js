@@ -21,6 +21,7 @@ export default defineConfig({
         portfolio:  resolve(__dirname, 'portfolio.html'),
         experience: resolve(__dirname, 'experience.html'),
         services:   resolve(__dirname, 'services.html'),
+        websites:   resolve(__dirname, 'websites.html'),
       },
     },
   },

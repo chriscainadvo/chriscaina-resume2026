@@ -2299,6 +2299,57 @@ a { color: inherit; text-decoration: none; }
   color: rgba(245,241,232,0.18);
 }
 
+/* ── Phase 4: section video backgrounds ──────────────────────── */
+.c-stats,
+.c-section,
+.c-contact {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Full-bleed video layer — sits behind everything */
+.c-sec-vid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Colour overlay — tints the video to match section palette */
+.c-sec-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Light sections: heavy cream wash so text stays fully readable */
+.c-stats .c-sec-overlay,
+.c-section .c-sec-overlay {
+  background: rgba(245, 241, 232, 0.84);
+}
+
+/* Dark contact: dark wash, let ink video bleed through subtly */
+.c-contact .c-sec-overlay {
+  background: rgba(8, 6, 4, 0.72);
+}
+
+/* All direct children float above overlay */
+.c-stats > :not(.c-sec-vid):not(.c-sec-overlay),
+.c-section > :not(.c-sec-vid):not(.c-sec-overlay),
+.c-contact > :not(.c-sec-vid):not(.c-sec-overlay) {
+  position: relative;
+  z-index: 2;
+}
+
+/* Honour reduced motion — hide video, section background unchanged */
+@media (prefers-reduced-motion: reduce) {
+  .c-sec-vid { display: none; }
+}
+
 /* ── Phase 3 responsive ───────────────────────────────────────── */
 @media (max-width: 900px) {
   .c-section { padding: 90px 6vw; }

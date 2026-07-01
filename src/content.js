@@ -49,6 +49,8 @@ export function buildContent() {
 
     <!-- ── Stats — full-width horizontal strip ─────────────────────── -->
     <section class="c-stats" id="stats">
+      <video class="c-sec-vid" src="/videos/vid-bokeh.mp4" autoplay muted loop playsinline></video>
+      <div class="c-sec-overlay"></div>
       ${STATS.map(([n, l1, l2]) => `
         <div class="c-stat">
           <span class="c-stat-num">${n}</span>
@@ -58,6 +60,8 @@ export function buildContent() {
 
     <!-- ── Services — numbered full-width rows ─────────────────────── -->
     <section class="c-section" id="services">
+      <video class="c-sec-vid" src="/videos/vid-hands.mp4" autoplay muted loop playsinline></video>
+      <div class="c-sec-overlay"></div>
       <div class="c-section-head">
         <p class="c-eyebrow">// WHAT I DO</p>
         <h2 class="c-heading">Services.</h2>
@@ -80,6 +84,8 @@ export function buildContent() {
 
     <!-- ── Hire — two-column split, no cards ───────────────────────── -->
     <section class="c-section c-hire" id="hire">
+      <video class="c-sec-vid" src="/videos/vid-bokeh.mp4" autoplay muted loop playsinline></video>
+      <div class="c-sec-overlay"></div>
       <div class="c-section-head">
         <p class="c-eyebrow">// TWO WAYS TO WORK TOGETHER</p>
         <h2 class="c-heading">You pick<br>the model.</h2>
@@ -111,6 +117,8 @@ export function buildContent() {
 
     <!-- ── Contact — dark full-bleed ───────────────────────────────── -->
     <section class="c-contact" id="contact">
+      <video class="c-sec-vid" src="/videos/vid-ink.mp4" autoplay muted loop playsinline></video>
+      <div class="c-sec-overlay"></div>
       <div class="c-contact-inner">
 
         <div class="c-contact-left">

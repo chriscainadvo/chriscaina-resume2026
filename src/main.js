@@ -95,18 +95,26 @@ const progressNum = document.getElementById('progressNum')
 const storyCaption = document.getElementById('storyCaption')
 const headFade = document.getElementById('headFade')
 const nameReveal = document.getElementById('nameReveal')
+const spearheadReveal = document.getElementById('spearheadReveal')
 const buildReveal1 = document.getElementById('buildReveal1')
 const buildReveal2 = document.getElementById('buildReveal2')
 const topnavEl = document.getElementById('nav')
 
-// Caption beats keyed by progress
+// Background videos for the spearhead/human/duo beats — only the active one decodes
+function syncBeatVideo(el, opacity) {
+  const vid = el?.querySelector('.br-vid')
+  if (!vid) return
+  if (opacity > 0.02) vid.play().catch(() => {})
+  else if (!vid.paused) vid.pause()
+}
+
+// Caption beats keyed by progress — short, direct, no AI-poetry
 const CAPTIONS = [
-  { at: 0.0,  text: "Everyone works with the same AI tools." },
-  { at: 0.15, text: "The same logos. The same dashboards." },
-  { at: 0.34, text: "But tools don’t think. They don’t feel the weight of a decision." },
-  { at: 0.56, text: "Real intelligence isn’t trained. It’s felt." },
-  { at: 0.68, text: "It’s the spark before the decision." },
-  { at: 0.76, text: "One idea — caught, shaped, built." },
+  { at: 0.0,  text: "Everyone's using the same AI tools." },
+  { at: 0.15, text: "Same logos. Same dashboards." },
+  { at: 0.34, text: "Tools don't run the show. People still do." },
+  { at: 0.56, text: "This is what AI looks like with direction." },
+  { at: 0.68, text: "Not automation. Augmentation." },
 ]
 let currentCaption = -1
 
@@ -128,9 +136,9 @@ function updateScroll() {
   progressNum.textContent =
     scrollProgress < 0.3  ? 'THE TOOLS'    :
     scrollProgress < 0.6  ? 'THE MIND'     :
-    scrollProgress < 0.79 ? 'THE SPARK'    :
-    scrollProgress < 0.89 ? 'THE BUILD'    :
-    scrollProgress < 0.97 ? 'THE SYSTEM'   : 'THE OPERATOR'
+    scrollProgress < 0.80 ? 'THE SPARK'    :
+    scrollProgress < 0.90 ? 'THE HUMAN'    :
+    scrollProgress < 0.97 ? 'THE BUILD'    : 'THE OPERATOR'
 
   // dark caption with a light halo — legible across the warm/cream palette
   const line = storyCaption.querySelector('.story-line')
@@ -146,25 +154,33 @@ function updateScroll() {
   const overContact = contactEl ? contactEl.getBoundingClientRect().top < window.innerHeight * 0.5 : false
   topnavEl.classList.toggle('dark', pastStage && !overContact)
 
-  // Build Beat 01 — Video Clipping Agent (p=0.82–0.92)
-  const br1 = THREE.MathUtils.smoothstep(scrollProgress, 0.82, 0.87) *
-              (1 - THREE.MathUtils.smoothstep(scrollProgress, 0.90, 0.93))
+  // Spearhead Beat — "This is Jarvis." (p=0.80–0.875)
+  const brS = THREE.MathUtils.smoothstep(scrollProgress, 0.80, 0.83) *
+              (1 - THREE.MathUtils.smoothstep(scrollProgress, 0.855, 0.875))
+  spearheadReveal.style.opacity = String(brS)
+  syncBeatVideo(spearheadReveal, brS)
+
+  // Build Beat 01 — The Human Element (p=0.865–0.925)
+  const br1 = THREE.MathUtils.smoothstep(scrollProgress, 0.865, 0.89) *
+              (1 - THREE.MathUtils.smoothstep(scrollProgress, 0.905, 0.925))
   buildReveal1.style.opacity = String(br1)
+  syncBeatVideo(buildReveal1, br1)
 
-  // Build Beat 02 — Jarvis (p=0.90–0.98)
-  const br2 = THREE.MathUtils.smoothstep(scrollProgress, 0.90, 0.94) *
-              (1 - THREE.MathUtils.smoothstep(scrollProgress, 0.96, 0.99))
+  // Build Beat 02 — Agent Duo (p=0.915–0.975)
+  const br2 = THREE.MathUtils.smoothstep(scrollProgress, 0.915, 0.94) *
+              (1 - THREE.MathUtils.smoothstep(scrollProgress, 0.955, 0.975))
   buildReveal2.style.opacity = String(br2)
+  syncBeatVideo(buildReveal2, br2)
 
-  // Name reveal — payoff at the very end (p=0.97–1.0)
-  const nr = THREE.MathUtils.smoothstep(scrollProgress, 0.97, 1.0)
+  // Name reveal — payoff at the very end (p=0.965–1.0)
+  const nr = THREE.MathUtils.smoothstep(scrollProgress, 0.965, 1.0)
   nameReveal.style.opacity = String(nr)
   nameReveal.classList.toggle('live', nr > 0.5)
 
-  // Caption clear — fade out before the build beats arrive
-  if (scrollProgress > 0.79) {
+  // Caption clear — fade out before the galaxy dissolves
+  if (scrollProgress > 0.72) {
     gsap.killTweensOf(storyCaption)
-    storyCaption.style.opacity = String(1 - THREE.MathUtils.smoothstep(scrollProgress, 0.79, 0.84))
+    storyCaption.style.opacity = String(1 - THREE.MathUtils.smoothstep(scrollProgress, 0.72, 0.78))
   }
 
   // caption swap
@@ -220,11 +236,11 @@ if (!IS_MOBILE) {
 const CAMZ = [
   [0.0,  0],
   [0.3,  -94],
-  [0.5,  -103],
-  [0.62, -105.5],
-  [0.68, -107.2], // push into forehead on burst (matches compressed galaxy)
-  [0.83, -103],   // begin pulling back as galaxy ends
-  [0.88, -96],    // settle to neutral — canvas clear for build reveals
+  [0.5,  -101],
+  [0.62, -102.5],
+  [0.68, -103.5], // stay back from the forehead — avoids bloom blowout at close range
+  [0.78, -100],   // begin pulling back as galaxy fades
+  [0.84, -96],    // settle to neutral — canvas clear for the video beats
   [1.0,  -92],    // comfortable reading distance for name reveal
 ]
 const _look = new THREE.Vector3()
@@ -255,11 +271,11 @@ function updateCameraRig(p, elapsed) {
 
 function bloomTarget(p) {
   // gentler on the light palette (high bloom washes white on cream)
-  if (p < 0.3)  return 0.16
-  if (p < 0.6)  return 0.2
-  if (p < 0.83) return THREE.MathUtils.lerp(0.2, 0.45, THREE.MathUtils.smoothstep(p, 0.6, 0.72))
-  // settle back to soft glow for the build reveals + name payoff
-  return THREE.MathUtils.lerp(0.42, 0.14, THREE.MathUtils.smoothstep(p, 0.83, 0.90))
+  if (p < 0.3)  return 0.12
+  if (p < 0.6)  return 0.13
+  if (p < 0.78) return THREE.MathUtils.lerp(0.13, 0.22, THREE.MathUtils.smoothstep(p, 0.6, 0.72))
+  // settle back to soft glow for the video beats + name payoff
+  return THREE.MathUtils.lerp(0.2, 0.14, THREE.MathUtils.smoothstep(p, 0.78, 0.85))
 }
 
 // warm/light palette like the reel: cream → warm-peach (mind/galaxy) → cream
@@ -289,8 +305,8 @@ function tick(time) {
   } else if (p < 0.68) {
     scene.background.copy(BG_WARM).lerp(BG_AMBER, THREE.MathUtils.smoothstep(p, 0.55, 0.65))
   } else {
-    // return to cream by 0.88 so build reveals read cleanly on warm canvas
-    scene.background.copy(BG_AMBER).lerp(BG_CREAM, THREE.MathUtils.smoothstep(p, 0.68, 0.88))
+    // return to cream by 0.80 so the video beats read cleanly underneath
+    scene.background.copy(BG_AMBER).lerp(BG_CREAM, THREE.MathUtils.smoothstep(p, 0.68, 0.80))
   }
   backdrop.update(camera, elapsed)
 

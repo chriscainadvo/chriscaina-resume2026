@@ -18,18 +18,20 @@ export class Head {
   }
 
   init() {
-    // smooth shaded light-grey head (studio-lit by the HDR env) like the topology ref
-    this.surfMat = new THREE.MeshStandardMaterial({
-      color: 0xccd2da,
-      roughness: 0.85,
+    // warm studio-lit head — softer, less "wireframe robot", reads as sculptural
+    this.surfMat = new THREE.MeshPhysicalMaterial({
+      color: 0xd8ccb8,
+      roughness: 0.65,
       metalness: 0.0,
-      envMapIntensity: 1.1,
+      clearcoat: 0.1,
+      clearcoatRoughness: 0.7,
+      envMapIntensity: 1.0,
       transparent: true,
       opacity: 0,
     })
-    // clean topology lines (EdgesGeometry @ 15° avoids triangle-fill circles on eyes/mouth)
+    // faint topology lines — much subtler so the surface reads first, wire second
     this.wireMat = new THREE.LineBasicMaterial({
-      color: 0x1a2535,
+      color: 0x2a2016,
       transparent: true,
       opacity: 0,
       blending: THREE.NormalBlending,
@@ -82,8 +84,8 @@ export class Head {
     if (!this.loaded || !this.group.visible) return
 
     const { elapsed } = ctx
-    this.surfMat.opacity = vis * 0.72
-    this.wireMat.opacity = vis * 0.52
+    this.surfMat.opacity = vis * 0.8
+    this.wireMat.opacity = vis * 0.22
     this.nodesMat.opacity = 0
 
     // Cinematic slow yaw + subtle nod

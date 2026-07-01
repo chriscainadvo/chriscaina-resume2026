@@ -428,7 +428,7 @@ a { color: inherit; text-decoration: none; }
 .nr-cta { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 .name-reveal.live { pointer-events: auto; }
 
-/* ---------- Build reveal beats (01 & 02) ---------- */
+/* ---------- Build reveal beats (spearhead, human, duo) ---------- */
 .build-reveal {
   position: absolute;
   inset: 0;
@@ -441,7 +441,35 @@ a { color: inherit; text-decoration: none; }
   opacity: 0;
   pointer-events: none;
   padding: 0 10vw;
+  overflow: hidden;
 }
+
+/* Cinematic video backdrop shared by the build-reveal beats */
+.br-vid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.br-vid-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgba(6,4,2,0.2) 0%, rgba(6,4,2,0.5) 100%),
+    linear-gradient(180deg, rgba(6,4,2,0.35) 0%, rgba(6,4,2,0.3) 55%, rgba(6,4,2,0.62) 100%);
+}
+.build-reveal > *:not(.br-vid):not(.br-vid-overlay) {
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 860px), (prefers-reduced-motion: reduce) {
+  .br-vid { display: none; }
+  .br-vid-overlay { background: rgba(8,6,4,0.9); }
+}
+
 .br-eyebrow {
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -494,7 +522,8 @@ a { color: inherit; text-decoration: none; }
   50% { opacity: 0.3; transform: scale(0.75); }
 }
 
-/* ------ Beat 1: Human Element ------ */
+/* ------ Beat: Spearhead + Human Element (light text over dark video) ------ */
+#spearheadReveal,
 #buildReveal1 { padding: 0; justify-content: center; }
 
 .hb-inner {
@@ -503,13 +532,12 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   text-align: center;
   padding: 0 10vw;
-  margin-bottom: 160px;
 }
 .hb-eyebrow {
   font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 3px;
-  color: rgba(0,0,0,0.38);
+  color: rgba(245,241,232,0.5);
   margin-bottom: 20px;
 }
 .hb-title {
@@ -518,36 +546,26 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(2rem, 7vw, 5.5rem);
   line-height: 1.06;
   letter-spacing: -1px;
-  color: var(--dark);
+  color: #f5f1e8;
   margin-bottom: 32px;
 }
 .hb-accent {
   color: transparent;
-  -webkit-text-stroke: 2px rgba(0,0,0,0.55);
+  -webkit-text-stroke: 2px rgba(245,241,232,0.7);
 }
 .hb-cta {
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 2px;
-  color: rgba(0,0,0,0.55);
+  color: rgba(245,241,232,0.7);
   text-decoration: none;
-  border-bottom: 1px solid rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(245,241,232,0.3);
   padding-bottom: 3px;
   transition: opacity 0.2s;
 }
 .hb-cta:hover { opacity: 0.55; }
 
-.hb-crowd {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 220px;
-  pointer-events: none;
-}
-.crowd-svg { width: 100%; height: 100%; display: block; }
-
-/* ------ Beat 2: Agent Duo ------ */
+/* ------ Beat: Agent Duo ------ */
 #buildReveal2 { padding: 0 2vw; }
 
 .duo-inner {
@@ -564,12 +582,12 @@ a { color: inherit; text-decoration: none; }
 }
 .duo-phone {
   width: 172px;
-  background: rgba(20,14,4,0.06);
-  border: 1.5px solid rgba(20,14,4,0.16);
+  background: rgba(245,241,232,0.08);
+  border: 1.5px solid rgba(245,241,232,0.2);
   border-radius: 20px;
   padding: 13px 11px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 .duo-screen {
   display: flex;
@@ -578,14 +596,14 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-mono);
   font-size: 0.51rem;
   letter-spacing: 0.3px;
-  color: rgba(20,12,2,0.68);
+  color: rgba(245,241,232,0.78);
 }
 .ds-hdr {
   font-size: 0.57rem;
   letter-spacing: 2px;
   font-weight: 700;
-  color: rgba(20,12,2,0.85);
-  border-bottom: 1px solid rgba(20,12,2,0.1);
+  color: #f5f1e8;
+  border-bottom: 1px solid rgba(245,241,232,0.16);
   padding-bottom: 6px;
   margin-bottom: 3px;
   display: flex;
@@ -593,61 +611,64 @@ a { color: inherit; text-decoration: none; }
   gap: 6px;
 }
 .ds-url {
-  background: rgba(20,12,2,0.04);
+  background: rgba(245,241,232,0.07);
   border-radius: 4px;
   padding: 4px 6px;
-  color: rgba(20,12,2,0.45);
+  color: rgba(245,241,232,0.55);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.ds-processing { color: #b07800; font-size: 0.49rem; }
+.ds-processing { color: #ffb84d; font-size: 0.49rem; }
 .ds-clip {
-  background: rgba(20,12,2,0.04);
-  border-left: 2px solid rgba(20,12,2,0.18);
+  background: rgba(245,241,232,0.07);
+  border-left: 2px solid rgba(245,241,232,0.28);
   padding: 3px 5px;
   border-radius: 0 3px 3px 0;
-  color: rgba(20,12,2,0.62);
+  color: rgba(245,241,232,0.72);
 }
 .ds-more {
   text-align: center;
-  color: rgba(20,12,2,0.3);
+  color: rgba(245,241,232,0.4);
   font-size: 0.46rem;
   margin-top: 2px;
 }
 .ds-live-badge {
-  background: #00b868;
-  color: #fff;
+  background: #00d878;
+  color: #06140c;
   border-radius: 3px;
   padding: 1px 5px;
   font-size: 0.44rem;
   letter-spacing: 1px;
+  font-weight: 700;
 }
 .jarvis-row-b {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 3px 0;
-  border-bottom: 1px solid rgba(20,12,2,0.06);
-  color: rgba(20,12,2,0.58);
+  border-bottom: 1px solid rgba(245,241,232,0.1);
+  color: rgba(245,241,232,0.7);
 }
 .ds-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #00b868;
+  background: #00d878;
   flex-shrink: 0;
   animation: br-pulse 1.6s ease-in-out infinite;
 }
-.ds-brief { margin-top: 2px; color: rgba(20,12,2,0.45); font-size: 0.49rem; }
-.ds-flag { color: #b07800; font-size: 0.49rem; }
+.ds-brief { margin-top: 2px; color: rgba(245,241,232,0.55); font-size: 0.49rem; }
+.ds-flag { color: #ffb84d; font-size: 0.49rem; }
 
-.bot-svg { width: 88px; height: 176px; display: block; opacity: 0.8; }
+.bot-svg { width: 88px; height: 176px; display: block; opacity: 0.9; }
+.bot-svg ellipse[stroke], .bot-svg rect[stroke], .bot-svg circle[stroke] { stroke: rgba(245,241,232,0.5) !important; }
+.bot-svg circle[fill], .bot-svg rect[fill] { fill: rgba(245,241,232,0.14) !important; }
 .duo-label {
   font-family: var(--font-mono);
   font-size: 0.58rem;
   letter-spacing: 2.5px;
-  color: rgba(20,12,2,0.38);
+  color: rgba(245,241,232,0.5);
 }
 
 /* ---------- HTML overlay layer (scenes 5 & 6) ---------- */

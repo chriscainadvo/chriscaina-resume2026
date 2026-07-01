@@ -2,6 +2,10 @@
 // stack duplicate instances on one canvas → fully reload instead.
 if (import.meta.hot) import.meta.hot.accept(() => window.location.reload())
 
+import { initGateway } from './gateway.js'
+initGateway() // covers screen immediately; Three.js initialises behind it
+
+import Lenis from 'lenis'
 import * as THREE from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
@@ -68,6 +72,21 @@ galaxy.init()
 /* ============================================================
    Scroll → progress (0..1 through the sticky stage)
    ============================================================ */
+/* ---------- Lenis smooth scroll ---------- */
+const lenis = new Lenis({
+  duration: 1.45,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo-out — heavy, premium feel
+  smoothWheel: true,
+  wheelMultiplier: 0.82,
+  touchMultiplier: 1.4,
+  infinite: false,
+})
+
+/* ---------- Full-page progress bar (thin line, top of viewport) ---------- */
+const pageProgressEl = document.createElement('div')
+pageProgressEl.className = 'page-progress'
+document.body.prepend(pageProgressEl)
+
 const stageScroll = document.querySelector('.stage-scroll')
 const progressFill = document.getElementById('progressFill')
 const progressNum = document.getElementById('progressNum')
@@ -97,7 +116,13 @@ function updateScroll() {
   const scrolled = Math.min(Math.max(-rect.top, 0), total)
   scrollProgress = total > 0 ? scrolled / total : 0
 
+  // Stage beat progress (the 07 WebGL chapters)
   progressFill.style.width = (scrollProgress * 100).toFixed(1) + '%'
+
+  // Full-page thin progress bar — tracks entire page scroll
+  const pageTotal = document.documentElement.scrollHeight - window.innerHeight
+  const fullProgress = pageTotal > 0 ? Math.min(window.scrollY / pageTotal, 1) : 0
+  pageProgressEl.style.transform = `scaleX(${fullProgress})`
   progressNum.textContent =
     scrollProgress < 0.3  ? 'THE TOOLS'    :
     scrollProgress < 0.6  ? 'THE MIND'     :
@@ -161,7 +186,8 @@ function swapCaption(text) {
   })
 }
 
-window.addEventListener('scroll', updateScroll, { passive: true })
+// Lenis fires scroll events as it interpolates — replaces raw scroll listener
+lenis.on('scroll', updateScroll)
 
 /* ============================================================
    Custom cursor
@@ -244,7 +270,8 @@ const BG_AMBER = new THREE.Color('#e0a06a') // deeper amber (galaxy) so gold par
    ============================================================ */
 const clock = new THREE.Clock()
 
-function tick() {
+function tick(time) {
+  lenis.raf(time) // Lenis needs the RAF timestamp for smooth interpolation
   const elapsed = clock.getElapsedTime()
   const dt = clock.getDelta()
 
@@ -301,4 +328,4 @@ addEventListener('resize', () => {
 buildContent()
 updateScroll()
 swapCaption(CAPTIONS[0].text)
-tick()
+requestAnimationFrame(tick) // pass timestamp so lenis.raf() gets the real time

@@ -2,6 +2,149 @@
    CAIÑA.OPS — cinematic portfolio
    ============================================================ */
 
+/* ============================================================
+   GATEWAY INTRO
+   ============================================================ */
+#gateway {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #080604;
+  will-change: transform;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+/* Radial depth glow */
+#gateway::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 75% 55% at 50% 48%, #14110b 0%, #050402 100%);
+  pointer-events: none;
+}
+
+/* Film grain overlay */
+#gateway::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.gw-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.gw-mark {
+  display: flex;
+  align-items: baseline;
+  gap: 13px;
+  opacity: 0;
+}
+
+.gw-slash {
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+  color: rgba(245, 241, 232, 0.22);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.gw-wordmark {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 6.5vw, 4.8rem);
+  color: #f5f1e8;
+  letter-spacing: 0.48em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.gw-dot {
+  color: rgba(245, 241, 232, 0.38);
+}
+
+.gw-rule {
+  width: 220px;
+  height: 1px;
+  background: rgba(245, 241, 232, 0.14);
+  transform-origin: center;
+}
+
+.gw-meta {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 3.5px;
+  color: rgba(245, 241, 232, 0.2);
+  opacity: 0;
+}
+
+.gw-counter {
+  font-variant-numeric: tabular-nums;
+  min-width: 2ch;
+}
+
+.gw-sep { opacity: 0.45; }
+
+.gw-prompt {
+  position: absolute;
+  bottom: 56px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 4.5px;
+  color: rgba(245, 241, 232, 0.28);
+  opacity: 0;
+}
+
+.gw-prompt-line {
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: rgba(245, 241, 232, 0.18);
+}
+/* ============================================================ */
+
+/* ============================================================
+   FULL-PAGE PROGRESS BAR (thin top line, Phase 2)
+   ============================================================ */
+.page-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: rgba(11, 28, 48, 0.5);
+  transform-origin: left center;
+  transform: scaleX(0);
+  z-index: 9000;
+  pointer-events: none;
+  will-change: transform;
+}
+/* ============================================================ */
+
 :root {
   --cream: #f7f5f2;
   --dark: #111111;

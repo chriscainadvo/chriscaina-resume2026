@@ -19,6 +19,7 @@ import { Head, HEAD_Z } from './world/head.js'
 import { Galaxy } from './world/galaxy.js'
 import { buildContent } from './content.js'
 import { initReveals } from './reveals.js'
+import { initPerf } from './perf.js'
 
 /* ============================================================
    Continuous cinematic journey — v2 (Beat A: kaleidoscope tunnel)
@@ -328,6 +329,7 @@ addEventListener('resize', () => {
 /* ---------- Boot ---------- */
 buildContent()
 initReveals(lenis)
+initPerf()
 updateScroll()
 swapCaption(CAPTIONS[0].text)
 requestAnimationFrame(tick) // pass timestamp so lenis.raf() gets the real time

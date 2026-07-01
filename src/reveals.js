@@ -66,22 +66,68 @@ export function initReveals(lenis) {
     )
   })
 
-  // ── 3. Service rows — stagger up as the list enters ───────────────────────
-  const svcRows = document.querySelectorAll('.c-svc-row')
-  if (svcRows.length) {
-    gsap.set(svcRows, { opacity: 0, y: 28 })
-    gsap.to(svcRows, {
-      opacity: 1, y: 0,
-      duration: 0.6,
-      ease: 'power2.out',
-      stagger: 0.06,
-      scrollTrigger: {
-        trigger: '.c-svc-list',
-        start: 'top 80%',
-        toggleActions: 'play none none none',
+  // ── 3. Mission statement dim → full reveal ────────────────────────────────
+  const statementDim = document.querySelector('.c-statement-dim')
+  if (statementDim) {
+    gsap.fromTo(statementDim,
+      { color: 'rgba(15,12,8,0.15)' },
+      {
+        color: 'rgba(15,12,8,1)',
+        duration: 1.2,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.c-statement',
+          start: 'top 72%',
+          toggleActions: 'play none none none',
+        },
+      }
+    )
+  }
+
+  // ── 4. Service rows — Terminal Industries-style color-scrub reveal ─────────
+  // Names start at 11% grey → scrub to full black as they enter active zone.
+  // Descriptions + links ghost in alongside.
+  document.querySelectorAll('.c-svc-row').forEach((row) => {
+    const name = row.querySelector('.c-svc-name')
+    const num  = row.querySelector('.c-svc-num')
+    const desc = row.querySelector('.c-svc-desc')
+    const link = row.querySelector('.c-svc-link')
+
+    ScrollTrigger.create({
+      trigger: row,
+      start: 'top 68%',
+      toggleActions: 'play none none none',
+      onEnter: () => {
+        // Name: grey → full black
+        gsap.to(name, {
+          color: 'rgba(15,12,8,1)',
+          duration: 0.65,
+          ease: 'power2.inOut',
+        })
+        // Number: subtler reveal
+        gsap.to(num, {
+          color: 'rgba(15,12,8,0.55)',
+          duration: 0.5,
+          ease: 'power2.out',
+        })
+        // Desc slides up and fades in
+        if (desc) gsap.to(desc, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power2.out',
+          delay: 0.12,
+        })
+        // Link appears
+        if (link) gsap.to(link, {
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power2.out',
+          delay: 0.2,
+        })
       },
     })
-  }
+  })
 
   // ── 4. Hire columns — slide up with slight stagger ────────────────────────
   const hireCols = document.querySelectorAll('.c-hire-col')

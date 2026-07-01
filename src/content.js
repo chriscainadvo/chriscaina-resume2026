@@ -58,6 +58,14 @@ export function buildContent() {
         </div>`).join('')}
     </section>
 
+    <!-- ── Mission statement ────────────────────────────────────────── -->
+    <div class="c-statement" id="statement">
+      <p class="c-statement-line">
+        Not your average<br>
+        <span class="c-statement-dim">executive assistant.</span>
+      </p>
+    </div>
+
     <!-- ── Services — numbered full-width rows ─────────────────────── -->
     <section class="c-section" id="services">
       <video class="c-sec-vid" src="/videos/vid-hands.mp4" autoplay muted loop playsinline preload="none"></video>

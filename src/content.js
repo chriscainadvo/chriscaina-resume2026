@@ -125,7 +125,6 @@ export function buildContent() {
 
     <!-- ── Contact — dark full-bleed ───────────────────────────────── -->
     <section class="c-contact" id="contact">
-      <video class="c-sec-vid" src="/videos/vid-ink.mp4" autoplay muted loop playsinline preload="none"></video>
       <div class="c-sec-overlay"></div>
       <div class="c-contact-inner">
 

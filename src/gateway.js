@@ -1,5 +1,67 @@
 import { gsap } from 'gsap'
 
+// AI tool tiles — the stack Chris uses
+const TOOLS = [
+  { name: 'Claude',     text: 'Cl',  tint: '218 119 86' },
+  { name: 'ChatGPT',    text: 'GPT', tint: '16 163 127' },
+  { name: 'Notion',     text: 'N',   tint: '245 241 232' },
+  { name: 'Apollo',     text: 'Apl', tint: '124 58 237' },
+  { name: 'Vercel',     text: '▲',   tint: '245 241 232' },
+  { name: 'Gmail',      text: 'G',   tint: '234 67 53' },
+  { name: 'Zapier',     text: 'Z',   tint: '255 79 0' },
+  { name: 'Make',       text: 'mk',  tint: '124 58 237' },
+  { name: 'Slack',      text: 'Sl',  tint: '210 50 210' },
+  { name: 'LinkedIn',   text: 'in',  tint: '10 102 194' },
+  { name: 'GSheets',    text: 'GS',  tint: '15 157 88' },
+  { name: 'Airtable',   text: 'at',  tint: '255 184 0' },
+  { name: 'n8n',        text: 'n8',  tint: '255 79 79' },
+  { name: 'Perplexity', text: 'Px',  tint: '32 156 238' },
+  { name: 'Cursor',     text: 'Cr',  tint: '180 180 200' },
+  { name: 'Loom',       text: 'Lm',  tint: '103 56 225' },
+  { name: 'Runway',     text: 'Rw',  tint: '200 200 200' },
+  { name: 'HubSpot',    text: 'Hs',  tint: '255 122 89' },
+  { name: 'Webflow',    text: 'Wf',  tint: '68 106 249' },
+  { name: 'Figma',      text: 'Fg',  tint: '255 82 82' },
+  { name: 'Canva',      text: 'Cv',  tint: '0 196 177' },
+  { name: 'GDrive',     text: 'Dr',  tint: '66 133 244' },
+  { name: 'Calendar',   text: 'Cal', tint: '234 67 53' },
+  { name: 'Zoom',       text: 'Zm',  tint: '45 140 255' },
+  { name: 'GitHub',     text: 'GH',  tint: '180 180 200' },
+  { name: 'Luma',       text: 'Lu',  tint: '200 100 255' },
+  { name: 'Kling',      text: 'Kl',  tint: '255 200 0' },
+  { name: 'ElevenLabs', text: 'EL',  tint: '180 180 200' },
+  { name: 'Heygen',     text: 'Hg',  tint: '103 56 225' },
+  { name: 'Typeform',   text: 'Tf',  tint: '36 236 116' },
+  { name: 'SalesNav',   text: 'SN',  tint: '10 102 194' },
+  { name: 'Clearbit',   text: 'Cb',  tint: '45 140 255' },
+  { name: 'Anthropic',  text: 'Ant', tint: '218 119 86' },
+  { name: 'Descript',   text: 'Dp',  tint: '128 100 255' },
+  { name: 'OpenAI',     text: 'OAI', tint: '245 241 232' },
+  { name: 'Twilio',     text: 'Tw',  tint: '245 22 65' },
+]
+
+function buildTileGrid() {
+  const COLS = 14, ROWS = 10
+  const total = COLS * ROWS
+  const tiles = []
+  while (tiles.length < total) tiles.push(...TOOLS)
+  tiles.length = total
+
+  return `<div class="gw-tiles" aria-hidden="true">${
+    tiles.map((t, i) => {
+      const dur  = (3.2 + (i % 7) * 0.28).toFixed(2)
+      const del  = (-(i * 0.22) % 4).toFixed(2)
+      const lift = (7 + (i % 5) * 2)
+      return `<div class="gw-tile" style="
+        --tint:${t.tint};
+        animation-duration:${dur}s;
+        animation-delay:${del}s;
+        --lift:${lift}px
+      "><span class="gw-tile-abbr">${t.text}</span><span class="gw-tile-name">${t.name}</span></div>`
+    }).join('')
+  }</div>`
+}
+
 export function initGateway() {
   // Once per session
   if (sessionStorage.getItem('caina-gw')) return
@@ -15,6 +77,7 @@ export function initGateway() {
   el.id = 'gateway'
   el.setAttribute('aria-label', 'Site intro — click or scroll to enter')
   el.innerHTML = `
+    ${buildTileGrid()}
     <div class="gw-inner">
       <div class="gw-mark">
         <span class="gw-slash">//</span>

@@ -89,7 +89,7 @@ export class Head {
 
         const scale = 6.4 / size.y
         holder.scale.setScalar(scale)
-        holder.position.y = -6.5 // planted at bottom — only crown shows above lower edge
+        holder.position.y = -3.0 // bottom-grounded — head visible, neck fades at edge
         this.holder = holder
         this.group.add(holder)
         this.loaded = true
@@ -129,8 +129,8 @@ export class Head {
     if (!this.loaded || !this.group.visible) return
 
     // smooth grey head, subtle topology overlay (clean, not creepy)
-    this.surfMat.opacity = vis * 0.42
-    this.wireMat.opacity = vis * 0.22
+    this.surfMat.opacity = vis * 0.72
+    this.wireMat.opacity = vis * 0.30
     this.nodesMat.opacity = 0
     this.group.scale.setScalar(THREE.MathUtils.lerp(0.82, 1, fadeOut))
     // no turning — the camera zooms toward the face instead

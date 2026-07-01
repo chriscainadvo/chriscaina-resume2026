@@ -5,16 +5,10 @@ const SERVICES = [
   ['Executive Operations', 'Calendar, inbox, travel, and day-to-day coordination run like clockwork — so leadership stays focused on the work that matters.'],
   ['AI Workflow Automation', 'Custom agents and pipelines that remove repetitive work — research, follow-ups, reporting — running quietly in the background.'],
   ['Lead Generation', 'Targeted prospect databases built with LinkedIn Sales Navigator, Apollo, and AI enrichment. 600+ qualified contacts and counting.'],
+  ['Cold Calling', 'Scripted outreach calls handled end-to-end — targeting, dialing, follow-up, and pipeline handoff. No hand-holding required.'],
   ['Web & Tool Deployment', 'Sites, dashboards, and internal tools shipped end-to-end with Claude Code and Vercel — no dev team required.'],
   ['Project Coordination', 'Multi-stakeholder projects kept on track with clear systems, status visibility, and proactive follow-through.'],
   ['Travel & Logistics', 'Complex international itineraries planned and optimized — $10K+ in travel costs saved through smart booking.'],
-]
-
-const EXP_PREVIEW = [
-  { role: 'Executive Assistant & AI Ops', meta: 'Marketing Agency · 2024 — Present', body: 'Building Jarvis, the AI Chief of Staff. Running per-client agents, automations, and live dashboards for the founder.', locked: false },
-  { role: 'Operations & Research Lead', meta: 'Confidential · 2022 — 2024', body: '200+ companies researched and qualified. Deployed AI email follow-up systems saving 10+ hours weekly.', locked: false },
-  { role: 'Senior EA — Locked', meta: '•••••• · ••••', body: 'Unlock the full timeline to view the complete 10-year track record across executive and operations roles.', locked: true },
-  { role: 'Coordinator — Locked', meta: '•••••• · ••••', body: 'Unlock the full timeline to view earlier roles, references, and detailed scope.', locked: true },
 ]
 
 const TIMELINE = [
@@ -42,18 +36,6 @@ export function buildContent() {
       ].map(([n, l]) => `<div class="stat"><div class="num">${n}</div><div class="label">${l}</div></div>`).join('')}
     </section>
 
-    <!-- Agency teaser -->
-    <section class="agency-teaser">
-      <div>
-        <p class="at-eyebrow">// SCALE OPTION</p>
-        <h2 class="at-title">Not just one person.<br/><span>A full team.</span></h2>
-        <p class="at-body">Need more than one operator? Chris leads a hand-picked team of project managers and specialists — trained on your systems, managed end-to-end, and delivered through a single point of contact. You pay once. The infrastructure is already built.</p>
-      </div>
-      <div class="at-cta">
-        <a href="/services">See the team model →</a>
-      </div>
-    </section>
-
     <!-- Services -->
     <section class="section" id="services">
       <p class="section-eyebrow">// WHAT I DO</p>
@@ -68,38 +50,45 @@ export function buildContent() {
       </div>
     </section>
 
-    <!-- Experience -->
-    <section class="section" id="experience" style="background:rgba(201,147,77,0.03)">
-      <p class="section-eyebrow">// TRACK RECORD</p>
-      <h2 class="section-title">Experience</h2>
-      <div class="exp-grid">
-        ${EXP_PREVIEW.map((e) => `
-          <div class="exp-card ${e.locked ? 'locked' : ''}">
-            <div class="lock-inner">
-              <div class="role">${e.role}</div>
-              <div class="meta">${e.meta}</div>
-              <p>${e.body}</p>
-            </div>
-          </div>`).join('')}
-      </div>
+    <!-- Hire section -->
+    <section class="hire-section" id="hire">
+      <p class="hire-eyebrow">// TWO WAYS TO WORK TOGETHER</p>
+      <h2 class="hire-intro">You pick the model.</h2>
+      <div class="hire-grid">
 
-      <div class="email-gate" id="emailGate">
-        <h3>Unlock the full timeline</h3>
-        <p>Enter your email to reveal the complete 10-year track record — 7 roles from 2015 to today.</p>
-        <form class="gate-form" id="gateForm">
-          <input type="email" name="email" placeholder="you@company.com" required />
-          <button class="btn btn-fill" type="submit">Unlock →</button>
-        </form>
-        <div class="form-status" id="gateStatus"></div>
-      </div>
+        <div class="hire-card team">
+          <p class="hire-badge">// HIRE MY TEAM</p>
+          <h3 class="hire-title">Full team.<br/>One contact.</h3>
+          <p class="hire-sub">Chris leads. The team executes. Everything in the solo plan — plus dedicated staff trained on your systems, managed end-to-end.</p>
+          <ul class="hire-features">
+            <li>Everything in the Solo plan, fully covered</li>
+            <li>Dedicated project managers per client account</li>
+            <li>Cold calling team — scripted, dialing, following up</li>
+            <li>Chris handles hiring, training, and quality control</li>
+            <li>Payroll and management stay completely off your plate</li>
+            <li>White-label option available</li>
+            <li>Scale up or down on your timeline</li>
+            <li>Single point of contact — no committee, no delay</li>
+          </ul>
+          <a href="#contact" class="hire-cta">Let's talk scope →</a>
+        </div>
 
-      <div class="timeline" id="timeline" style="margin-top:36px">
-        ${TIMELINE.map(([r, m, b]) => `
-          <div class="timeline-item">
-            <div class="role">${r}</div>
-            <div class="meta">${m}</div>
-            <p>${b}</p>
-          </div>`).join('')}
+        <div class="hire-card solo">
+          <p class="hire-badge">// HIRE ME</p>
+          <h3 class="hire-title">Solo. Fully<br/>AI-augmented.</h3>
+          <p class="hire-sub">Direct access to Chris. One person doing the work of three — every task runs through AI systems built for your workflow.</p>
+          <ul class="hire-features">
+            <li>Calendar, inbox, and travel — always handled</li>
+            <li>Custom AI agents built to your workflow</li>
+            <li>Lead research and AI-enriched prospect lists</li>
+            <li>Cold calling and outreach execution</li>
+            <li>Website and internal tool deployment</li>
+            <li>Project coordination end-to-end</li>
+            <li>Async-first — systems run without hand-holding</li>
+          </ul>
+          <a href="#contact" class="hire-cta">Get in touch →</a>
+        </div>
+
       </div>
     </section>
 
@@ -143,26 +132,6 @@ export function buildContent() {
 }
 
 function wireForms() {
-  // Email gate → unlock timeline
-  const gateForm = document.getElementById('gateForm')
-  gateForm.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    const status = document.getElementById('gateStatus')
-    status.textContent = 'Unlocking…'
-    try {
-      await fetch(FORMSPREE, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(gateForm),
-      })
-    } catch (_) {}
-    document.getElementById('emailGate').style.display = 'none'
-    document.getElementById('timeline').classList.add('open')
-    document.querySelectorAll('.exp-card.locked').forEach((c) => {
-      c.classList.remove('locked')
-    })
-  })
-
   // Contact form
   const contactForm = document.getElementById('contactForm')
   contactForm.addEventListener('submit', async (e) => {

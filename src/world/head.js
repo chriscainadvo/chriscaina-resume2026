@@ -81,11 +81,17 @@ export class Head {
     this.group.visible = vis > 0.001
     if (!this.loaded || !this.group.visible) return
 
-    // smooth grey head + clean topology edge lines (EdgesGeometry, no circle artifacts)
+    const { elapsed } = ctx
     this.surfMat.opacity = vis * 0.72
     this.wireMat.opacity = vis * 0.52
     this.nodesMat.opacity = 0
-    this.group.scale.setScalar(THREE.MathUtils.lerp(0.82, 1, fadeOut))
-    // no turning — the camera zooms toward the face instead
+
+    // Cinematic slow yaw + subtle nod
+    this.holder.rotation.y = Math.sin(elapsed * 0.28) * 0.38
+    this.holder.rotation.x = Math.cos(elapsed * 0.18) * 0.06
+
+    // Breathing scale layered on top of the fade-in scale
+    const breathe = 1 + Math.sin(elapsed * 0.72) * 0.018
+    this.group.scale.setScalar(THREE.MathUtils.lerp(0.82, 1, fadeOut) * breathe)
   }
 }

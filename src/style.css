@@ -307,6 +307,162 @@ a { color: inherit; text-decoration: none; }
   50% { opacity: 0.3; transform: scale(0.75); }
 }
 
+/* ------ Beat 1: Human Element ------ */
+#buildReveal1 { padding: 0; justify-content: center; }
+
+.hb-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 10vw;
+  margin-bottom: 160px;
+}
+.hb-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: rgba(0,0,0,0.38);
+  margin-bottom: 20px;
+}
+.hb-title {
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: clamp(2rem, 7vw, 5.5rem);
+  line-height: 1.06;
+  letter-spacing: -1px;
+  color: var(--dark);
+  margin-bottom: 32px;
+}
+.hb-accent {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(0,0,0,0.55);
+}
+.hb-cta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  color: rgba(0,0,0,0.55);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  padding-bottom: 3px;
+  transition: opacity 0.2s;
+}
+.hb-cta:hover { opacity: 0.55; }
+
+.hb-crowd {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  pointer-events: none;
+}
+.crowd-svg { width: 100%; height: 100%; display: block; }
+
+/* ------ Beat 2: Agent Duo ------ */
+#buildReveal2 { padding: 0 2vw; }
+
+.duo-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 52px;
+}
+.duo-agent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.duo-phone {
+  width: 172px;
+  background: rgba(20,14,4,0.06);
+  border: 1.5px solid rgba(20,14,4,0.16);
+  border-radius: 20px;
+  padding: 13px 11px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.duo-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.51rem;
+  letter-spacing: 0.3px;
+  color: rgba(20,12,2,0.68);
+}
+.ds-hdr {
+  font-size: 0.57rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: rgba(20,12,2,0.85);
+  border-bottom: 1px solid rgba(20,12,2,0.1);
+  padding-bottom: 6px;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ds-url {
+  background: rgba(20,12,2,0.04);
+  border-radius: 4px;
+  padding: 4px 6px;
+  color: rgba(20,12,2,0.45);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ds-processing { color: #b07800; font-size: 0.49rem; }
+.ds-clip {
+  background: rgba(20,12,2,0.04);
+  border-left: 2px solid rgba(20,12,2,0.18);
+  padding: 3px 5px;
+  border-radius: 0 3px 3px 0;
+  color: rgba(20,12,2,0.62);
+}
+.ds-more {
+  text-align: center;
+  color: rgba(20,12,2,0.3);
+  font-size: 0.46rem;
+  margin-top: 2px;
+}
+.ds-live-badge {
+  background: #00b868;
+  color: #fff;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.44rem;
+  letter-spacing: 1px;
+}
+.jarvis-row-b {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(20,12,2,0.06);
+  color: rgba(20,12,2,0.58);
+}
+.ds-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00b868;
+  flex-shrink: 0;
+  animation: br-pulse 1.6s ease-in-out infinite;
+}
+.ds-brief { margin-top: 2px; color: rgba(20,12,2,0.45); font-size: 0.49rem; }
+.ds-flag { color: #b07800; font-size: 0.49rem; }
+
+.bot-svg { width: 88px; height: 176px; display: block; opacity: 0.8; }
+.duo-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 2.5px;
+  color: rgba(20,12,2,0.38);
+}
+
 /* ---------- HTML overlay layer (scenes 5 & 6) ---------- */
 .scene-html-layer {
   position: absolute;
@@ -1327,16 +1483,25 @@ a { color: inherit; text-decoration: none; }
   gap: 14px;
   overflow: hidden;
 }
+.reel-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
 .reel-thumb::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.5) 100%);
+  background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.6) 100%);
+  z-index: 1;
 }
 .reel-play {
   opacity: 0.7;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 .reel-label {
   font-family: var(--font-mono);
@@ -1345,7 +1510,7 @@ a { color: inherit; text-decoration: none; }
   color: rgba(255,255,255,0.55);
   text-transform: uppercase;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 .reel-caption {
   font-family: var(--font-body);

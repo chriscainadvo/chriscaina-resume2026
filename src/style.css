@@ -706,6 +706,17 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 2px;
   color: var(--dark);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pn-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  display: block;
 }
 .page-nav .pn-links {
   display: flex;

@@ -7,33 +7,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 export const HEAD_Z = -110
 
-function glowTexture() {
-  const s = 256
-  const c = document.createElement('canvas')
-  c.width = c.height = s
-  const ctx = c.getContext('2d')
-  const g = ctx.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2)
-  g.addColorStop(0, 'rgba(255,235,200,0.9)')
-  g.addColorStop(0.4, 'rgba(255,180,110,0.5)')
-  g.addColorStop(1, 'rgba(255,150,90,0)')
-  ctx.fillStyle = g
-  ctx.fillRect(0, 0, s, s)
-  return new THREE.CanvasTexture(c)
-}
-
-function dotTexture() {
-  const s = 64
-  const c = document.createElement('canvas')
-  c.width = c.height = s
-  const ctx = c.getContext('2d')
-  const g = ctx.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2)
-  g.addColorStop(0, 'rgba(220,240,255,1)')
-  g.addColorStop(0.4, 'rgba(160,210,255,0.7)')
-  g.addColorStop(1, 'rgba(120,180,255,0)')
-  ctx.fillStyle = g
-  ctx.fillRect(0, 0, s, s)
-  return new THREE.CanvasTexture(c)
-}
 
 export class Head {
   constructor(parent) {
@@ -54,9 +27,9 @@ export class Head {
       transparent: true,
       opacity: 0,
     })
-    // subtle topology lines over the surface
+    // clean topology lines (EdgesGeometry @ 15° avoids triangle-fill circles on eyes/mouth)
     this.wireMat = new THREE.LineBasicMaterial({
-      color: 0x6b7686,
+      color: 0x1a2535,
       transparent: true,
       opacity: 0,
       blending: THREE.NormalBlending,
@@ -83,7 +56,7 @@ export class Head {
 
         const holder = new THREE.Group()
         const surf = new THREE.Mesh(geo, this.surfMat)
-        const wire = new THREE.LineSegments(new THREE.WireframeGeometry(geo), this.wireMat)
+        const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 15), this.wireMat)
         const nodes = new THREE.Points(geo, this.nodesMat) // glowing network nodes at vertices
         holder.add(surf, wire, nodes)
 
@@ -98,23 +71,6 @@ export class Head {
       (e) => console.warn('head load failed', e)
     )
 
-    // warm halo behind the head (gentle; intensifies toward the burst)
-    this.glow = new THREE.Mesh(
-      new THREE.PlaneGeometry(30, 30),
-      new THREE.MeshBasicMaterial({
-        map: glowTexture(),
-        color: 0xffb070,
-        transparent: true,
-        opacity: 0,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        depthTest: false,
-      })
-    )
-    this.glow.position.set(0, 1.5, -4)
-    this.glow.renderOrder = -5
-    this.group.add(this.glow)
-
     this.parent.add(this.group)
   }
 
@@ -122,15 +78,12 @@ export class Head {
     const fadeIn = THREE.MathUtils.smoothstep(progress, 0.3, 0.42)
     const fadeOut = 1 - THREE.MathUtils.smoothstep(progress, 0.64, 0.72)
     const vis = fadeIn * fadeOut
-    // warm halo only around the burst (pure black before that)
-    const glowVis = THREE.MathUtils.smoothstep(progress, 0.56, 0.66) * (1 - THREE.MathUtils.smoothstep(progress, 0.72, 0.86))
-    this.glow.material.opacity = glowVis * 0.18
-    this.group.visible = vis > 0.001 || glowVis > 0.001
+    this.group.visible = vis > 0.001
     if (!this.loaded || !this.group.visible) return
 
-    // smooth grey head, subtle topology overlay (clean, not creepy)
+    // smooth grey head + clean topology edge lines (EdgesGeometry, no circle artifacts)
     this.surfMat.opacity = vis * 0.72
-    this.wireMat.opacity = vis * 0.30
+    this.wireMat.opacity = vis * 0.52
     this.nodesMat.opacity = 0
     this.group.scale.setScalar(THREE.MathUtils.lerp(0.82, 1, fadeOut))
     // no turning — the camera zooms toward the face instead
